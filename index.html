@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vue 3 Basics</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+
+      input {
+        margin: 10px;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app" v-cloak>
+      <login-form />
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      let app = Vue.createApp({
+        data: function () {
+          return {
+            greetings: "Hello Vue Version 3.0",
+            isVisible: false,
+          };
+        },
+        methods: {
+          toggleBox() {
+            this.isVisible = !this.isVisible;
+          },
+          greet(greetings) {
+            console.log(greetings);
+          },
+        },
+      });
+
+      app.component("login-form", {
+        template: `
+            
+            <form @submit.prevent="submitData(emailEntered, paswrdEntered)">
+            <h3>{{title}}</h3>
+
+            <custom-input v-model="emailEntered" type="email"  v-bind:label  />
+            <custom-input v-model="paswrdEntered" type="password"     />
+            
+            <button>Submit</button>
+            </form>
+            `,
+        components: ["email-input", "password-input", "custom-input"],
+        data: function () {
+          return {
+            title: "Login Form",
+            emailEntered: "",
+            paswrdEntered: "",
+          };
+        },
+        methods: {
+          submitData: function (emailEntered, paswrdEntered) {
+            console.log("email = ", emailEntered);
+            console.log("password = ", paswrdEntered);
+          },
+        },
+      });
+
+      //   app.component("email-input", {
+      //     template: `
+      //         {{emailLabel}}
+      //         <input v-model="emailEntered" type="email">
+      //         `,
+      //     data: function () {
+      //       return {
+      //         emailEntered: "",
+      //         emailLabel: "Email",
+      //       };
+      //     },
+      //     methods: {},
+      //   });
+
+      app.component("custom-input", {
+        template: `
+            <label>
+
+                {{label}}
+                <input >
+            </label>
+            `,
+        data: function () {
+          return {
+            emailEntered: "",
+            paswrdEntered: "",
+            passwordLabel: "Password",
+            emailLabel: "Email",
+          };
+        },
+        methods: {},
+      });
+
+      // app.component('password-input', {
+      //     template: `
+      //     {{passwordLabel}}
+      //     <input v-model="paswrdEntered" type="password">
+      //     `,
+      //     data: function () {
+      //         return {
+      //             paswrdEntered: '',
+      //             passwordLabel: 'Password'
+      //         }
+
+      //     },
+      //     methods: {
+      //     }
+      // }
+      // )
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>
